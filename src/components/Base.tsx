@@ -7,13 +7,35 @@ type Props={
   pizza:pizza
 }
 
+const containerVariants = {
+  hidden: { 
+    opacity: 0, 
+    x: '100vw' 
+  },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: { type: 'spring', delay: 0.5 }
+  },
+};
+
+const nextVariants = {
+  hidden: { 
+    x: '-100vw' 
+  },
+  visible: {
+    x: 0,
+    transition: { type: 'spring', stiffness: 120 }
+  } 
+}
+
 const Base:React.FC<Props> = ({ addBase, pizza }) => {
   const bases = ['Classic', 'Thin & Crispy', 'Thick Crust'];
   return (
     <motion.div className="base container"
-    initial={{ opacity: 0, x: '100vw' }}
-    animate={{ opacity: 1, x: 0 }}
-    transition={{ type: 'spring', delay: 0.5 }}
+    variants={containerVariants}
+    initial="hidden"
+    animate="visible"
     >
 
       <h3>Step 1: Choose Your Base</h3>
@@ -33,9 +55,9 @@ const Base:React.FC<Props> = ({ addBase, pizza }) => {
 
       {pizza.base && (
         <motion.div className="next"
-        initial={{ x: '-100vw' }}
-        animate={{ x: 0 }}
-        transition={{ type: 'spring', stiffness: 120 }}
+        /*2nd advantage of using variants: takes the same structure as the parent i.e hidden for initial,etc but from the nextVarient*/
+        variants={nextVariants}
+
       >
         <Link to="/toppings">
         <motion.button 

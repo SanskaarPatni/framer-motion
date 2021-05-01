@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import {Route, Switch} from 'react-router-dom'
+import {Route, Switch,useLocation} from 'react-router-dom'
 import Home from './components/Home';
 import Base from './components/Base'
 import Toppings from './components/Toppings';
 import Order from './components/Order'
 import Navbar from './components/Navbar';
+import { AnimatePresence } from 'framer-motion';
 
 export type pizza={
   base:string,
@@ -12,6 +13,7 @@ export type pizza={
 }
 
 function App() {
+  const location = useLocation();
   const [pizza, setPizza] = useState({base:"",toppings:[]} as pizza)
   
   const addBase = (base: string) => {
@@ -31,7 +33,8 @@ function App() {
   return (
     <>
     <Navbar />
-    <Switch>
+    <AnimatePresence exitBeforeEnter>
+    <Switch location={location} key={location.key}>
       <Route path="/base">
         <Base addBase={addBase} pizza={pizza} />
       </Route>
@@ -45,6 +48,7 @@ function App() {
         <Home />
       </Route>
     </Switch>
+    </AnimatePresence>
   </>
   );
 }

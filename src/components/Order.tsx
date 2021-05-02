@@ -1,9 +1,10 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import {motion} from 'framer-motion'
 import {pizza} from '../App'
 
 type Props={
-  pizza: pizza
+  pizza: pizza,
+  setShowModal:(showModal:boolean)=>void
 }
 /*Advantage of using variants orchestration property*/
 const containerVariants = {
@@ -25,6 +26,10 @@ const containerVariants = {
       when: "beforeChildren",
     }
   },
+  exit: {
+    x: "-100vh",
+    transition: { ease: 'easeInOut' }
+  }
 };
 
 const childVariants = {
@@ -36,14 +41,17 @@ const childVariants = {
   }
 }
 
-const Order = ( {pizza}: Props ) => {
+const Order = ( {pizza,setShowModal}: Props ) => {
+  useEffect(() => {
+    setTimeout(() => setShowModal(true), 4000);
+  }, [setShowModal]);
   return (
     <motion.div className="container order"
     variants={containerVariants}
     initial="hidden"
     animate="visible"
     exit="exit"
-  >
+    >
     <h2>Thank you for your order :)</h2>
     <motion.p variants={childVariants}>You ordered a {pizza.base} pizza with:</motion.p>
     <motion.div variants={childVariants}>
